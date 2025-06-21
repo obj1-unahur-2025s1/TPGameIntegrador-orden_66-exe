@@ -1,15 +1,27 @@
-object rojo {
-  method tecla() = "w" //Q CARAJOS HACEMOS
+import wollokDice.*
+
+class Flecha inherits Imagen {
+  method mostrar() {
+    game.addVisual(imagen)
+  }
+  
+  method ocultar() {
+    game.removeVisual(imagen)
+  }
 }
 
-object azul {
-  method tecla() = "s"
+object rojo inherits Flecha (imagen = "flecha_rojo.jpg") {
+  
 }
 
-object verde {
-  method tecla() = "d"
+object azul inherits Flecha (imagen = "flecha_azul.jpg") {
+  
 }
 
-object amarillo {
-  method tecla() = "a"
+object verde inherits Flecha (imagen = "flecha_verde.jpg") {
+  
+}
+
+object amarillo inherits Flecha (imagen = "flecha_amarillo.jpg") {
+  
 }

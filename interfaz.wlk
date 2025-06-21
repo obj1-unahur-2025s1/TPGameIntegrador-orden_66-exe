@@ -23,8 +23,6 @@ object interfaz {
     
     
     
-    
-    
     // cambiar las imaghenes para que se vea q la secuencia
     return secuencias
   }
@@ -36,9 +34,6 @@ object interfaz {
   
   method addSecuenciaJugador(unColor) {
     sucuenciasJugador.add(unColor)
-    
-    
-    
     
     
     // cambiar las imaghenes para que se vea q flecha hizo click
@@ -61,6 +56,5 @@ object interfaz {
     keyboard.s().onPressDo({ self.addSecuenciaJugador(azul) })
     keyboard.d().onPressDo({ self.addSecuenciaJugador(verde) })
     keyboard.a().onPressDo({ self.addSecuenciaJugador(amarillo) })
-    // keyboard.m().onPressDo({ self.openMenu()})
   }
 }
