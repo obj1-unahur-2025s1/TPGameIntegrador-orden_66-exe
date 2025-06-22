@@ -1,4 +1,5 @@
 import colores.*
+import wollokDice.*
 
 object interfaz {
   var nivel = 1
@@ -6,7 +7,6 @@ object interfaz {
   const property secuencias = []
   const sucuenciasJugador = []
   
-  //[azul, verde, rojo]
   method nivel() = nivel
   
   method opciones() = opciones
@@ -20,10 +20,6 @@ object interfaz {
       const nuevoDesafio = opciones.randomized()
       secuencias.add(nuevoDesafio.first())
     }
-    
-    
-    
-    // cambiar las imaghenes para que se vea q la secuencia
     return secuencias
   }
   
@@ -35,26 +31,28 @@ object interfaz {
   method addSecuenciaJugador(unColor) {
     sucuenciasJugador.add(unColor)
     
-    
-    // cambiar las imaghenes para que se vea q flecha hizo click
     if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
-      self.reiniciar()
-      self.error("Perdiste")
+      game.clear()
+      game.addVisual(perdiste)
+      keyboard.enter().onPressDo({ self.reiniciar() })
     }
     
-    if (sucuenciasJugador.size() == secuencias.size()) self.subirDeNivel()
+    if (sucuenciasJugador == secuencias) {
+      self.subirDeNivel()
+      wollokDice.iniciarGame()
+    }
   }
   
   method reiniciar() {
     nivel = 1
     secuencias.clear()
     sucuenciasJugador.clear()
+    wollokDice.iniciarGame()
   }
+}
+
+object perdiste {
+  method text() = "PERDISTE"
   
-  method init() {
-    keyboard.w().onPressDo({ self.addSecuenciaJugador(rojo) })
-    keyboard.s().onPressDo({ self.addSecuenciaJugador(azul) })
-    keyboard.d().onPressDo({ self.addSecuenciaJugador(verde) })
-    keyboard.a().onPressDo({ self.addSecuenciaJugador(amarillo) })
-  }
+  method position() = game.center()
 }
