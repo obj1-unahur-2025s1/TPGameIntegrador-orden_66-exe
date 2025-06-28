@@ -34,14 +34,13 @@ object interfaz {
   }
   
   method addSecuenciaJugador(unColor) {
-    //game.schedule(1000, { unColor.mostraryOcultar() })
     sucuenciasJugador.add(unColor)
+    unColor.mostraryOcultar()
     
     if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
-      game.clear()
-      //game.removeVisual(fondoBase)
+      //game.clear()
+      if (game.hasVisual(fondoBase)) game.removeVisual(fondoBase)
       game.addVisual(perdiste)
-      keyboard.enter().onPressDo({ self.reiniciar() })
     }
     
     if (sucuenciasJugador == secuencias) {
@@ -55,13 +54,6 @@ object interfaz {
     secuencias.clear()
     sucuenciasJugador.clear()
     game.removeVisual(perdiste)
-    game.addVisual(fondoInicio)
-    keyboard.enter().onPressDo({ wollokDice.iniciarGame() })
+    keyboard.enter().onPressDo({ wollokDice.reiniciarGame() })
   }
-}
-
-object perdiste {
-  method text() = "PERDISTE, presiona Enter para ir al menu"
-  
-  method position() = game.center()
 }
