@@ -39,7 +39,7 @@ object interfaz {
     
     if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
       game.clear()
-      game.removeVisual(fondoBase)
+      //game.removeVisual(fondoBase)
       game.addVisual(perdiste)
       keyboard.enter().onPressDo({ self.reiniciar() })
     }

@@ -4,8 +4,9 @@ import wollok.game.*
 
 object wollokDice {
   method iniciar() {
-    game.width(21)
-    game.height(21)
+    game.width(20)
+    game.height(20)
+    //game.cellSize(20)
     game.title("Wollok Dice")
     game.addVisual(fondoInicio)
     game.start()
@@ -18,7 +19,7 @@ object wollokDice {
   }
   
   method iniciarGame() {
-    game.removeVisual(fondoInicio)
+    //game.removeVisual(fondoInicio)
     self.mostrarSecuencia()
   }
   
@@ -36,7 +37,7 @@ object wollokDice {
         time += 1000
       }
     )
-    game.schedule(time, { game.addVisual(fondoBase) })
+    game.schedule(time - 1000, { game.addVisual(fondoBase) })
   }
   
   method tecladoUsuario() {
