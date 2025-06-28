@@ -4,9 +4,8 @@ import wollok.game.*
 
 object wollokDice {
   method iniciar() {
-    game.width(50)
-    game.height(50)
-    game.cellSize(50)
+    game.width(21)
+    game.height(21)
     game.title("Wollok Dice")
     game.addVisual(fondoInicio)
     game.start()
@@ -20,6 +19,15 @@ object wollokDice {
   
   method iniciarGame() {
     game.removeVisual(fondoInicio)
+    self.mostrarSecuencia()
+  }
+  
+  method continuarGame() {
+    //game.removeVisual(fondoBase)
+    self.mostrarSecuencia()
+  }
+  
+  method mostrarSecuencia() {
     const listadoDeColores = interfaz.secuenciaArealizar()
     var time = 1000
     listadoDeColores.forEach(
@@ -28,14 +36,14 @@ object wollokDice {
         time += 1000
       }
     )
-    game.schedule(time + 1000, { game.addVisual(fondoInicio) })
+    game.schedule(time, { game.addVisual(fondoBase) })
   }
   
   method tecladoUsuario() {
-    keyboard.w().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
-    keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
-    keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(verde) })
-    keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
+    keyboard.up().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
+    keyboard.down().onPressDo({ interfaz.addSecuenciaJugador(azul) })
+    keyboard.right().onPressDo({ interfaz.addSecuenciaJugador(verde) })
+    keyboard.left().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
   }
 }
 
@@ -47,6 +55,10 @@ class Imagen {
   method position() = game.at(0, 0)
 }
 
-object fondoInicio inherits Imagen (imagen = "fondo1.jpg") {
-  
+object fondoInicio inherits Imagen (imagen = "inicio.jpeg") {
+  //override method position() = game.center()
+}
+
+object fondoBase inherits Imagen (imagen = "base.jpeg") {
+  //override method position() = game.center()
 }

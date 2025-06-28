@@ -6,21 +6,21 @@ class Colores inherits Imagen {
     game.schedule(1000, { game.removeVisual(self) })
   }
   
-  override method position() = game.center()
+  override method position() = game.at(0, 0)
 }
 
-object rojo inherits Colores (imagen = "flecha_rojo.jpg") {
+object rojo inherits Colores (imagen = "rojo.jpeg") {
   
 }
 
-object azul inherits Colores (imagen = "flecha_azul.jpg") {
+object azul inherits Colores (imagen = "azul.jpeg") {
   
 }
 
-object verde inherits Colores (imagen = "flecha_verde.jpg") {
+object verde inherits Colores (imagen = "verde.jpeg") {
   
 }
 
-object amarillo inherits Colores (imagen = "flecha_amarilla.jpg") {
+object amarillo inherits Colores (imagen = "amarillo.jpeg") {
   
 }
