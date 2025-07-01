@@ -1,3 +1,4 @@
+
 import colores.*
 import wollokDice.*
 
@@ -33,27 +34,29 @@ object interfaz {
     sucuenciasJugador.clear()
   }
   
-  method addSecuenciaJugador(unColor) {
-    sucuenciasJugador.add(unColor)
-    unColor.mostraryOcultar()
-    
-    if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
-      //game.clear()
-      if (game.hasVisual(fondoBase)) game.removeVisual(fondoBase)
-      game.addVisual(perdiste)
-    }
-    
-    if (sucuenciasJugador == secuencias) {
-      self.subirDeNivel()
-      wollokDice.continuarGame()
-    }
-  }
+
+method addSecuenciaJugador(unColor) {
+  sucuenciasJugador.add(unColor)
+  unColor.mostraryOcultar()
   
-  method reiniciar() {
-    nivel = 1
-    secuencias.clear()
-    sucuenciasJugador.clear()
-    game.removeVisual(perdiste)
-    keyboard.enter().onPressDo({ wollokDice.reiniciarGame() })
+  
+  if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
+    tuTurno.ocultar()
+
+    game.addVisual(perdiste)
+  } else if (sucuenciasJugador.size() == secuencias.size()) {
+    game.schedule(400, { tuTurno.ocultar() })
+    self.subirDeNivel()
+    game.schedule(1000, { wollokDice.continuarGame() })
   }
+}
+
+
+method reiniciar() {
+  nivel = 1
+  secuencias.clear()
+  sucuenciasJugador.clear()
+  game.removeVisual(perdiste)
+  wollokDice.iniciarGame()
+}
 }
