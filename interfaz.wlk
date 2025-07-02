@@ -28,12 +28,10 @@ object interfaz {
       unColor.mostraryOcultar()
       
       if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
-        tuTurno.ocultar()
         wollokDice.ocultarFlechas()
         game.addVisual(perdiste)
       } else {
         if (sucuenciasJugador.size() == secuencias.size()) {
-          tuTurno.ocultar()
           self.subirDeNivel()
           game.schedule(1000, { wollokDice.continuarGame() })
         }
@@ -51,7 +49,7 @@ object interfaz {
 }
 
 object paleta {
-  const property amarillo = "faea20"
+  const property amarillo = "FFE81F"
 }
 
 object tuTurnoVersionTexto {
@@ -63,7 +61,7 @@ object tuTurnoVersionTexto {
 }
 
 object tuNivel {
-  method position() = game.at(5, 13)
+  method position() = game.at(4, 13)
   
   method text() = "Nivel: " + interfaz.nivel()
   

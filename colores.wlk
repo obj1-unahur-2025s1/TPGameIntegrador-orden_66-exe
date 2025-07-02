@@ -1,3 +1,4 @@
+import interfaz.*
 import wollokDice.*
 
 class Colores inherits Imagen {
@@ -10,21 +11,21 @@ class Colores inherits Imagen {
     if (game.hasVisual(self)) game.removeVisual(self)
   }
   
-  override method position() = game.at(6, 10)
+  override method position() = game.at(0, 0)
 }
 
-object rojo inherits Colores (imagen = "rojo.jpg") {
+object rojo inherits Colores (imagen = "rojoCompleto.jpeg") {
   
 }
 
-object azul inherits Colores (imagen = "azul.jpg") {
+object azul inherits Colores (imagen = "azulCompleto.jpeg") {
   
 }
 
-object verde inherits Colores (imagen = "verde.jpg") {
+object verde inherits Colores (imagen = "verdeCompleto.jpeg") {
   
 }
 
-object amarillo inherits Colores (imagen = "amarillo.jpg") {
+object amarillo inherits Colores (imagen = "amarilloCompleto.jpeg") {
   
 }

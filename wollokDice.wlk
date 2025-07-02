@@ -40,9 +40,6 @@ object wollokDice {
   
   method mostrarSecuencia() {
     flechas = false
-    if (game.hasVisual(tuTurnoVersionTexto)) game.removeVisual(
-        tuTurnoVersionTexto
-      )
     const listadoDeColores = interfaz.secuenciaArealizar()
     var time = if (listadoDeColores.size() == 1) 1500 else 1000
     listadoDeColores.forEach(
@@ -51,7 +48,6 @@ object wollokDice {
         time += 1000
       }
     )
-    //game.schedule(time, { tuTurno.mostrar() })
     game.schedule(time, { game.addVisualCharacter(tuTurnoVersionTexto) })
     game.schedule(time, { flechas = true })
   }
@@ -85,22 +81,5 @@ object fondoBase inherits Imagen (imagen = "base.jpeg") {
 }
 
 object perdiste inherits Imagen (imagen = "perdiste.jpg") {
-  override method position() = game.at(0, 0)
-}
-
-object tuTurno inherits Imagen (imagen = "tuTurno.jpg") {
-  override method position() = game.at(15, 10)
   
-  method mostraryOcultar() {
-    game.addVisual(self)
-    game.schedule(2000, { game.removeVisual(self) })
-  }
-  
-  method mostrar() {
-    if (not game.hasVisual(self)) game.addVisual(self)
-  }
-  
-  method ocultar() {
-    if (game.hasVisual(self)) game.removeVisual(self)
-  }
 }
