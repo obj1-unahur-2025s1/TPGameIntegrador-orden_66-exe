@@ -1,12 +1,14 @@
+import wollok.game.*
 import interfaz.*
 import colores.*
-import wollok.game.*
+import imagenes.*
+import textos.*
 
 object wollokDice {
   var enJuego = false
-  var flechas = false
+  var flechasActivas = false
   
-  method flechas() = flechas
+  method flechas() = flechasActivas
   
   method iniciar() {
     game.width(20)
@@ -16,12 +18,18 @@ object wollokDice {
     game.addVisual(fondoInicio)
     game.start()
     self.initTeclado()
-    self.tecladoUsuario()
   }
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.iniciarGame() })
     keyboard.r().onPressDo({ interfaz.reiniciar() })
+    keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
+    keyboard.x().onPressDo({ interfaz.mostrarMenu() })
+    keyboard.q().onPressDo({ game.stop() })
+    keyboard.up().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
+    keyboard.down().onPressDo({ interfaz.addSecuenciaJugador(azul) })
+    keyboard.right().onPressDo({ interfaz.addSecuenciaJugador(verde) })
+    keyboard.left().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
   }
   
   method iniciarGame() {
@@ -36,12 +44,13 @@ object wollokDice {
   
   method continuarGame() {
     self.mostrarSecuencia()
+    if (not game.hasVisual(tuNivel)) game.addVisualCharacter(tuNivel)
   }
   
   method mostrarSecuencia() {
-    flechas = false
+    flechasActivas = false
     const listadoDeColores = interfaz.secuenciaArealizar()
-    var time = if (listadoDeColores.size() == 1) 1500 else 1000
+    var time = 1000
     listadoDeColores.forEach(
       { color =>
         game.schedule(time, { color.mostraryOcultar() })
@@ -49,37 +58,10 @@ object wollokDice {
       }
     )
     game.schedule(time, { game.addVisualCharacter(tuTurnoVersionTexto) })
-    game.schedule(time, { flechas = true })
-  }
-  
-  method tecladoUsuario() {
-    keyboard.up().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
-    keyboard.down().onPressDo({ interfaz.addSecuenciaJugador(azul) })
-    keyboard.right().onPressDo({ interfaz.addSecuenciaJugador(verde) })
-    keyboard.left().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
+    game.schedule(time, { flechasActivas = true })
   }
   
   method ocultarFlechas() {
-    flechas = false
+    flechasActivas = false
   }
-}
-
-class Imagen {
-  const imagen
-  
-  method image() = imagen
-  
-  method position() = game.at(0, 0)
-}
-
-object fondoInicio inherits Imagen (imagen = "inicioPro.jpg") {
-  
-}
-
-object fondoBase inherits Imagen (imagen = "base.jpeg") {
-  
-}
-
-object perdiste inherits Imagen (imagen = "perdiste.jpg") {
-  
 }

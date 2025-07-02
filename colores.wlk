@@ -1,10 +1,9 @@
-import interfaz.*
-import wollokDice.*
+import imagenes.Imagen
 
 class Colores inherits Imagen {
   method mostraryOcultar() {
     if (not game.hasVisual(self)) game.addVisual(self)
-    game.schedule(1000, { self.ocultar() })
+    game.schedule(1500, { self.ocultar() })
   }
   
   method ocultar() {
@@ -14,18 +13,10 @@ class Colores inherits Imagen {
   override method position() = game.at(0, 0)
 }
 
-object rojo inherits Colores (imagen = "rojoCompleto.jpeg") {
-  
-}
+const rojo = new Colores(imagen = "rojoCompleto.jpeg")
 
-object azul inherits Colores (imagen = "azulCompleto.jpeg") {
-  
-}
+const azul = new Colores(imagen = "azulCompleto.jpeg")
 
-object verde inherits Colores (imagen = "verdeCompleto.jpeg") {
-  
-}
+const verde = new Colores(imagen = "verdeCompleto.jpeg")
 
-object amarillo inherits Colores (imagen = "amarilloCompleto.jpeg") {
-  
-}
+const amarillo = new Colores(imagen = "amarilloCompleto.jpeg")

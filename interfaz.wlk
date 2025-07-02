@@ -1,6 +1,8 @@
+import textos.*
+import wollok.game.*
 import colores.*
 import wollokDice.*
-import wollok.game.*
+import imagenes.*
 
 object interfaz {
   var nivel = 1
@@ -24,46 +26,55 @@ object interfaz {
   
   method addSecuenciaJugador(unColor) {
     if (wollokDice.flechas()) {
-      sucuenciasJugador.add(unColor)
-      unColor.mostraryOcultar()
+      self.removeImages([tuNivel, tuTurnoVersionTexto])
+      self.agregarColorYMostrar(unColor)
       
-      if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
-        wollokDice.ocultarFlechas()
-        game.addVisual(perdiste)
+      if (self.esJugadaPerdedora()) {
+        self.perder()
       } else {
-        if (sucuenciasJugador.size() == secuencias.size()) {
+        if (self.ultimaJugada()) {
           self.subirDeNivel()
-          game.schedule(1000, { wollokDice.continuarGame() })
+          game.schedule(500, { wollokDice.continuarGame() })
         }
       }
     }
   }
   
+  method agregarColorYMostrar(unColor) {
+    sucuenciasJugador.add(unColor)
+    unColor.mostraryOcultar()
+  }
+  
+  method esJugadaPerdedora() = secuencias.take(
+    sucuenciasJugador.size()
+  ) != sucuenciasJugador
+  
+  method perder() {
+    wollokDice.ocultarFlechas()
+    game.addVisual(perdiste)
+  }
+  
+  method ultimaJugada() = sucuenciasJugador.size() == secuencias.size()
+  
   method reiniciar() {
     nivel = 1
     secuencias.clear()
     sucuenciasJugador.clear()
-    game.removeVisual(perdiste)
+    self.removeImages([perdiste])
     wollokDice.continuarGame()
   }
-}
-
-object paleta {
-  const property amarillo = "FFE81F"
-}
-
-object tuTurnoVersionTexto {
-  method position() = game.at(15, 13)
   
-  method text() = "¡Tu turno!"
+  method removeImages(unaListaDeImagenes) {
+    unaListaDeImagenes.forEach(
+      { imagen => if (game.hasVisual(imagen)) game.removeVisual(imagen) }
+    )
+  }
   
-  method textColor() = paleta.amarillo()
-}
-
-object tuNivel {
-  method position() = game.at(4, 13)
+  method mostrarInstruciones() {
+    game.removeVisual(fondoBase)
+  }
   
-  method text() = "Nivel: " + interfaz.nivel()
-  
-  method textColor() = paleta.amarillo()
+  method mostrarMenu() {
+    game.addVisual(fondoBase)
+  }
 }
