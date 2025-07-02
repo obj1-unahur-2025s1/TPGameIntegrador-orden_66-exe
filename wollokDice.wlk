@@ -50,14 +50,22 @@ object wollokDice {
   method mostrarSecuencia() {
     flechasActivas = false
     const listadoDeColores = interfaz.secuenciaArealizar()
-    var time = 1000
+    var time = 2000
     listadoDeColores.forEach(
       { color =>
         game.schedule(time, { color.mostraryOcultar() })
         time += 1000
       }
     )
-    game.schedule(time, { game.addVisualCharacter(tuTurnoVersionTexto) })
+    if (time === 1000) {
+      time += 500
+    }
+    game.schedule(
+      time,
+      { if (not game.hasVisual(tuTurnoVersionTexto)) game.addVisualCharacter(
+            tuTurnoVersionTexto
+          ) }
+    )
     game.schedule(time, { flechasActivas = true })
   }
   
