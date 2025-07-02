@@ -3,62 +3,68 @@ import colores.*
 import wollok.game.*
 
 object wollokDice {
- 
-method iniciar() {
-  game.width(20)
-  game.height(20)
-  game.cellSize(51)
-  game.title("Wollok Dice")
-  game.addVisual(fondoBase)
-  game.addVisual(fondoInicio)
-  game.start()
-  self.initTeclado()
-  self.tecladoUsuario()
-}
+  var enJuego = false
+  var flechas = false
+  
+  method flechas() = flechas
+  
+  method iniciar() {
+    game.width(20)
+    game.height(20)
+    game.cellSize(51)
+    game.title("Wollok Dice")
+    game.addVisual(fondoInicio)
+    game.start()
+    self.initTeclado()
+    self.tecladoUsuario()
+  }
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.iniciarGame() })
+    keyboard.r().onPressDo({ interfaz.reiniciar() })
   }
   
-
-method iniciarGame() {
-  game.removeVisual(fondoInicio)
-  self.setReiniciarTeclado()
-  self.mostrarSecuencia()
-}
-method setReiniciarTeclado() {
-    // Desvincula la función anterior del enter
-    keyboard.enter().onPressDo({ })
-    // Vincula la nueva función al enter
-    keyboard.enter().onPressDo({ interfaz.reiniciar() })
+  method iniciarGame() {
+    if (!enJuego) {
+      enJuego = true
+      game.removeVisual(fondoInicio)
+      game.addVisual(fondoBase)
+      self.mostrarSecuencia()
+      game.addVisualCharacter(tuNivel)
+    }
   }
   
   method continuarGame() {
     self.mostrarSecuencia()
   }
-
-
-method mostrarSecuencia() {
-  const listadoDeColores = interfaz.secuenciaArealizar()
-  var time = 500 
-  tuTurno.ocultar() 
-  listadoDeColores.forEach(
-    { color =>
-      game.schedule(time, { color.mostraryOcultar() })
-      time += 500 
-    }
-  )
-  game.schedule(time, {
-    tuTurno.mostrar()
-  })
-}
+  
+  method mostrarSecuencia() {
+    flechas = false
+    if (game.hasVisual(tuTurnoVersionTexto)) game.removeVisual(
+        tuTurnoVersionTexto
+      )
+    const listadoDeColores = interfaz.secuenciaArealizar()
+    var time = if (listadoDeColores.size() == 1) 1500 else 1000
+    listadoDeColores.forEach(
+      { color =>
+        game.schedule(time, { color.mostraryOcultar() })
+        time += 1000
+      }
+    )
+    //game.schedule(time, { tuTurno.mostrar() })
+    game.schedule(time, { game.addVisualCharacter(tuTurnoVersionTexto) })
+    game.schedule(time, { flechas = true })
+  }
   
   method tecladoUsuario() {
     keyboard.up().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
     keyboard.down().onPressDo({ interfaz.addSecuenciaJugador(azul) })
     keyboard.right().onPressDo({ interfaz.addSecuenciaJugador(verde) })
     keyboard.left().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
-    
+  }
+  
+  method ocultarFlechas() {
+    flechas = false
   }
 }
 
@@ -79,14 +85,11 @@ object fondoBase inherits Imagen (imagen = "base.jpeg") {
 }
 
 object perdiste inherits Imagen (imagen = "perdiste.jpg") {
-  
-  
   override method position() = game.at(0, 0)
 }
 
-
 object tuTurno inherits Imagen (imagen = "tuTurno.jpg") {
-  override method position() = game.at(9, 3)
+  override method position() = game.at(15, 10)
   
   method mostraryOcultar() {
     game.addVisual(self)
@@ -94,10 +97,10 @@ object tuTurno inherits Imagen (imagen = "tuTurno.jpg") {
   }
   
   method mostrar() {
-    game.addVisual(self)
+    if (not game.hasVisual(self)) game.addVisual(self)
   }
   
   method ocultar() {
-    game.removeVisual(self)
+    if (game.hasVisual(self)) game.removeVisual(self)
   }
 }

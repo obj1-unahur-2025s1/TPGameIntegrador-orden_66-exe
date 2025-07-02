@@ -1,6 +1,6 @@
-
 import colores.*
 import wollokDice.*
+import wollok.game.*
 
 object interfaz {
   var nivel = 1
@@ -12,18 +12,6 @@ object interfaz {
   
   method opciones() = opciones
   
-  method secuenciaArealizar2() {
-    if (nivel != secuencias.size()) {
-      if (nivel >= opciones.size()) opciones.add(
-          opciones.asList().randomized().first()
-        )
-      
-      const nuevoDesafio = opciones.randomized()
-      secuencias.add(nuevoDesafio.first())
-    }
-    return secuencias
-  }
-  
   method secuenciaArealizar() {
     if (secuencias.size() < nivel) secuencias.add(opciones.randomized().first())
     return secuencias
@@ -34,29 +22,50 @@ object interfaz {
     sucuenciasJugador.clear()
   }
   
-
-method addSecuenciaJugador(unColor) {
-  sucuenciasJugador.add(unColor)
-  unColor.mostraryOcultar()
+  method addSecuenciaJugador(unColor) {
+    if (wollokDice.flechas()) {
+      sucuenciasJugador.add(unColor)
+      unColor.mostraryOcultar()
+      
+      if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
+        tuTurno.ocultar()
+        wollokDice.ocultarFlechas()
+        game.addVisual(perdiste)
+      } else {
+        if (sucuenciasJugador.size() == secuencias.size()) {
+          tuTurno.ocultar()
+          self.subirDeNivel()
+          game.schedule(1000, { wollokDice.continuarGame() })
+        }
+      }
+    }
+  }
   
-  
-  if (secuencias.take(sucuenciasJugador.size()) != sucuenciasJugador) {
-    tuTurno.ocultar()
-
-    game.addVisual(perdiste)
-  } else if (sucuenciasJugador.size() == secuencias.size()) {
-    game.schedule(400, { tuTurno.ocultar() })
-    self.subirDeNivel()
-    game.schedule(1000, { wollokDice.continuarGame() })
+  method reiniciar() {
+    nivel = 1
+    secuencias.clear()
+    sucuenciasJugador.clear()
+    game.removeVisual(perdiste)
+    wollokDice.continuarGame()
   }
 }
 
-
-method reiniciar() {
-  nivel = 1
-  secuencias.clear()
-  sucuenciasJugador.clear()
-  game.removeVisual(perdiste)
-  wollokDice.iniciarGame()
+object paleta {
+  const property amarillo = "faea20"
 }
+
+object tuTurnoVersionTexto {
+  method position() = game.at(15, 13)
+  
+  method text() = "¡Tu turno!"
+  
+  method textColor() = paleta.amarillo()
+}
+
+object tuNivel {
+  method position() = game.at(5, 13)
+  
+  method text() = "Nivel: " + interfaz.nivel()
+  
+  method textColor() = paleta.amarillo()
 }

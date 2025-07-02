@@ -1,10 +1,13 @@
 import wollokDice.*
 
-// 3er archivo: Colores.wlk
 class Colores inherits Imagen {
   method mostraryOcultar() {
-    game.addVisual(self)
-    game.schedule(500, { game.removeVisual(self) })
+    if (not game.hasVisual(self)) game.addVisual(self)
+    game.schedule(1000, { self.ocultar() })
+  }
+  
+  method ocultar() {
+    if (game.hasVisual(self)) game.removeVisual(self)
   }
   
   override method position() = game.at(6, 10)
