@@ -24,7 +24,7 @@
 Wollok Dice es una versión individual del clásico juego “Simón dice”, diseñada para entrenar la memoria y la atención.
 
 Objetivo
-El jugador debe repetir únicamente los colores en el orden que aparecen utilizando las flechas direccionales (↑ ↓ → ←).
+El jugador debe repetir los colores en el orden que aparecen utilizando las flechas direccionales (↑ ↓ → ←).
 
 Cómo se juega:
 
