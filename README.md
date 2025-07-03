@@ -2,7 +2,7 @@
 
 ## Equipo de desarrollo
 
--   Malena Celeste Manzilla Fenandez (?)
+-   Malena Celeste Fernandez Mansilla
 -   Lucas F. Silva
 -   Rafael Barberi Salcedo
 -   Guido Betran
