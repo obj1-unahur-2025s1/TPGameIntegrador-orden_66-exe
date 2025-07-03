@@ -52,16 +52,20 @@ object interfaz {
   method perder() {
     wollokDice.ocultarFlechas()
     game.addVisual(perdiste)
+    wollokDice.perdio()
   }
   
   method ultimaJugada() = sucuenciasJugador.size() == secuencias.size()
   
   method reiniciar() {
-    nivel = 1
-    secuencias.clear()
-    sucuenciasJugador.clear()
-    self.removeImages([perdiste])
-    wollokDice.continuarGame()
+    if (wollokDice.reiniciar()) {
+      nivel = 1
+      secuencias.clear()
+      sucuenciasJugador.clear()
+      self.removeImages([perdiste])
+      game.addVisual(fondoInicio)
+      wollokDice.cambiarEnJuego()
+    }
   }
   
   method removeImages(unaListaDeImagenes) {
@@ -71,10 +75,16 @@ object interfaz {
   }
   
   method mostrarInstruciones() {
-    game.removeVisual(fondoBase)
+    if (!wollokDice.enJuego()) {
+      game.removeVisual(fondoInicio)
+      game.addVisual(intrucciones)
+    }
   }
   
   method mostrarMenu() {
-    game.addVisual(fondoBase)
+    if (!wollokDice.enJuego()) {
+      game.removeVisual(intrucciones)
+      game.addVisual(fondoInicio)
+    }
   }
 }

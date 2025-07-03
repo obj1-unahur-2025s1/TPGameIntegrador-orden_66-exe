@@ -11,7 +11,13 @@
 
 ## Capturas
 
-(agregar fotos del juego)
+![Imagen de Inicio](./assets/pantallaInicio.jpeg)
+![Imagen de Intrucciones](./assets/instrucciones.jpg)
+![Imagen de Juego](./assets/base.jpeg)
+![Imagen de Juego Rojo](./assets/rojoCompleto.jpeg)
+![Imagen de Juego Amarillo](./assets/amarilloCompleto.jpeg)
+![Imagen de Juego Verde](./assets/verdeCompleto.jpeg)
+![Imagen de Juego Azul](./assets/azulCompleto.jpeg)
 
 ## Reglas de Juego / Instrucciones
 

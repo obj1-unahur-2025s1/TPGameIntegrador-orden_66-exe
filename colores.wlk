@@ -3,7 +3,7 @@ import imagenes.Imagen
 class Colores inherits Imagen {
   method mostraryOcultar() {
     if (not game.hasVisual(self)) game.addVisual(self)
-    game.schedule(2000, { self.ocultar() })
+    game.schedule(1000, { self.ocultar() })
   }
   
   method ocultar() {

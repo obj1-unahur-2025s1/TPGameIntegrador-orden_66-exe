@@ -7,8 +7,17 @@ import textos.*
 object wollokDice {
   var enJuego = false
   var flechasActivas = false
+  var reiniciar = false
+  
+  method enJuego() = enJuego
   
   method flechas() = flechasActivas
+  
+  method reiniciar() = reiniciar
+  
+  method cambiarEnJuego() {
+    enJuego = not enJuego
+  }
   
   method iniciar() {
     game.width(20)
@@ -24,7 +33,7 @@ object wollokDice {
     keyboard.enter().onPressDo({ self.iniciarGame() })
     keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
-    keyboard.x().onPressDo({ interfaz.mostrarMenu() })
+    keyboard.b().onPressDo({ interfaz.mostrarMenu() })
     keyboard.q().onPressDo({ game.stop() })
     keyboard.up().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
     keyboard.down().onPressDo({ interfaz.addSecuenciaJugador(azul) })
@@ -35,8 +44,8 @@ object wollokDice {
   method iniciarGame() {
     if (!enJuego) {
       enJuego = true
-      game.removeVisual(fondoInicio)
-      game.addVisual(fondoBase)
+      if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
+      if (not game.hasVisual(fondoBase)) game.addVisual(fondoBase)
       self.mostrarSecuencia()
       game.addVisualCharacter(tuNivel)
     }
@@ -50,7 +59,7 @@ object wollokDice {
   method mostrarSecuencia() {
     flechasActivas = false
     const listadoDeColores = interfaz.secuenciaArealizar()
-    var time = 2000
+    var time = 1000
     listadoDeColores.forEach(
       { color =>
         game.schedule(time, { color.mostraryOcultar() })
@@ -71,5 +80,9 @@ object wollokDice {
   
   method ocultarFlechas() {
     flechasActivas = false
+  }
+  
+  method perdio() {
+    reiniciar = true
   }
 }
