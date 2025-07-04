@@ -26,7 +26,7 @@ object interfaz {
   
   method addSecuenciaJugador(unColor) {
     if (wollokDice.flechas()) {
-      self.removeImages([tuNivel, turno])
+      self.removeImages([tuTurno])
       self.agregarColorYMostrar(unColor)
       
       if (self.esJugadaPerdedora()) {
@@ -41,8 +41,8 @@ object interfaz {
   }
   
   method agregarColorYMostrar(unColor) {
-    sucuenciasJugador.add(unColor)
     unColor.mostraryOcultar()
+    sucuenciasJugador.add(unColor)
   }
   
   method esJugadaPerdedora() = secuencias.take(
@@ -62,7 +62,7 @@ object interfaz {
       nivel = 1
       secuencias.clear()
       sucuenciasJugador.clear()
-      self.removeImages([perdiste])
+      self.removeImages([perdiste, sinColores, tuTurno])
       game.addVisual(fondoInicio)
       wollokDice.cambiarEnJuego()
     }

@@ -20,3 +20,5 @@ const azul = new Colores(imagen = "azul.jpg")
 const verde = new Colores(imagen = "verde.jpg")
 
 const amarillo = new Colores(imagen = "amarillo.jpg")
+
+const sinColores = new Colores(imagen = "sinColores.jpg")

@@ -25,8 +25,7 @@ object wollokDice {
     game.cellSize(51)
     game.title("Wollok Dice")
     game.boardGround("fondoBase.jpg")
-    game.addVisual(tuTurno)
-    
+    game.addVisual(fondoInicio)
     game.start()
     self.initTeclado()
   }
@@ -45,10 +44,16 @@ object wollokDice {
   
   method iniciarGame() {
     if (!enJuego) {
-      enJuego = true
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
-      self.mostrarSecuencia()
+      game.addVisual(sinColores)
+      
+      enJuego = true
+      reiniciar = false
+      flechasActivas = false
+      
       game.addVisual(tuNivel)
+      
+      self.mostrarSecuencia()
     }
   }
   
@@ -60,6 +65,11 @@ object wollokDice {
     flechasActivas = false
     const listadoDeColores = interfaz.secuenciaArealizar()
     var time = 1000
+    if (game.hasVisual(sinColores)) game.schedule(
+        time,
+        { game.removeVisual(sinColores) }
+      )
+    
     listadoDeColores.forEach(
       { color =>
         game.schedule(time, { color.mostraryOcultar() })
@@ -69,6 +79,7 @@ object wollokDice {
     if (time === 1000) {
       time += 500
     }
+    game.schedule(time, { game.addVisual(sinColores) })
     game.schedule(
       time,
       { if (not game.hasVisual(tuTurno)) game.addVisual(tuTurno) }
