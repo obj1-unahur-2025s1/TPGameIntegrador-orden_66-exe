@@ -10,13 +10,13 @@ class Colores inherits Imagen {
     if (game.hasVisual(self)) game.removeVisual(self)
   }
   
-  override method position() = game.at(0, 0)
+  override method position() = game.at(6, 10)
 }
 
-const rojo = new Colores(imagen = "rojoCompleto.jpeg")
+const rojo = new Colores(imagen = "rojo.jpg")
 
-const azul = new Colores(imagen = "azulCompleto.jpeg")
+const azul = new Colores(imagen = "azul.jpg")
 
-const verde = new Colores(imagen = "verdeCompleto.jpeg")
+const verde = new Colores(imagen = "verde.jpg")
 
-const amarillo = new Colores(imagen = "amarilloCompleto.jpeg")
+const amarillo = new Colores(imagen = "amarillo.jpg")

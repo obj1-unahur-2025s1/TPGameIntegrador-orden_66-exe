@@ -26,7 +26,7 @@ object interfaz {
   
   method addSecuenciaJugador(unColor) {
     if (wollokDice.flechas()) {
-      self.removeImages([tuNivel, tuTurnoVersionTexto])
+      self.removeImages([tuNivel, turno])
       self.agregarColorYMostrar(unColor)
       
       if (self.esJugadaPerdedora()) {
