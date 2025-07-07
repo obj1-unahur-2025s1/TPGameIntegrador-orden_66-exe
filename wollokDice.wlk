@@ -3,11 +3,14 @@ import interfaz.*
 import colores.*
 import imagenes.*
 import textos.*
+import sonidos.*
 
 object wollokDice {
   var enJuego = false
   var flechasActivas = false
   var reiniciar = false
+  const musicaDeFondo = new GameMusic()
+  const musicaMenu = new MenuMusic()
   
   method enJuego() = enJuego
   
@@ -26,13 +29,17 @@ object wollokDice {
     game.title("Wollok Dice")
     game.boardGround("fondoBase.jpg")
     game.addVisual(fondoInicio)
+    sonido.ejecutar(musicaMenu)
     game.start()
     self.initTeclado()
   }
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.iniciarGame() })
-    keyboard.r().onPressDo({ interfaz.reiniciar() })
+    keyboard.r().onPressDo({ 
+        sonido.ejecutar(musicaMenu)
+        interfaz.reiniciar() 
+      })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
     
@@ -48,7 +55,8 @@ object wollokDice {
     if (!enJuego) {
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
       game.addVisual(sinColores)
-      
+      sonido.detener(musicaMenu) 
+      sonido.ejecutar(musicaDeFondo)
       enJuego = true
       reiniciar = false
       flechasActivas = false
@@ -94,6 +102,7 @@ object wollokDice {
   }
   
   method perdio() {
+    sonido.detener(musicaDeFondo)
     reiniciar = true
   }
 }

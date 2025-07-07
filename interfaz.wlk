@@ -3,6 +3,7 @@ import wollok.game.*
 import colores.*
 import wollokDice.*
 import imagenes.*
+import sonidos.*
 
 object interfaz {
   var nivel = 1
@@ -25,6 +26,8 @@ object interfaz {
   }
   
   method addSecuenciaJugador(unColor) {
+    const inputSound = new InputSound()
+    sonido.ejecutar(inputSound)
     if (wollokDice.flechas()) {
       self.removeImages([tuTurno])
       self.agregarColorYMostrar(unColor)
