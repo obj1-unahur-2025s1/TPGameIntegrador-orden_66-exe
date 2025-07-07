@@ -35,11 +35,13 @@ object wollokDice {
     keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
-    keyboard.q().onPressDo({ game.stop() })
-    keyboard.up().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
-    keyboard.down().onPressDo({ interfaz.addSecuenciaJugador(azul) })
-    keyboard.right().onPressDo({ interfaz.addSecuenciaJugador(verde) })
-    keyboard.left().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
+    
+    keyboard.p().onPressDo({ game.stop() }) //NO SE USA
+    
+    keyboard.w().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
+    keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
+    keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(verde) })
+    keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
   }
   
   method iniciarGame() {
