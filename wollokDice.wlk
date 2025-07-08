@@ -36,10 +36,7 @@ object wollokDice {
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.iniciarGame() })
-    keyboard.r().onPressDo({ 
-        sonido.ejecutar(musicaMenu)
-        interfaz.reiniciar() 
-      })
+    keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
     
@@ -47,22 +44,21 @@ object wollokDice {
     
     keyboard.w().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
     keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
-    keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(verde) })
-    keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
+    keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(verde) })
+    keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
   }
   
   method iniciarGame() {
     if (!enJuego) {
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
       game.addVisual(sinColores)
-      sonido.detener(musicaMenu) 
+      if (sonido.enEjecucion(musicaMenu)) sonido.detener(musicaMenu)
       sonido.ejecutar(musicaDeFondo)
       enJuego = true
       reiniciar = false
       flechasActivas = false
       
-      game.addVisual(tuNivel)
-      
+      if (!game.hasVisual(tuNivel)) game.addVisual(tuNivel)
       self.mostrarSecuencia()
     }
   }
@@ -87,8 +83,9 @@ object wollokDice {
       }
     )
     if (time === 1000) {
-      time += 500
+      time += 1000
     }
+    
     game.schedule(time, { game.addVisual(sinColores) })
     game.schedule(
       time,
@@ -102,7 +99,7 @@ object wollokDice {
   }
   
   method perdio() {
-    sonido.detener(musicaDeFondo)
+    if (sonido.enEjecucion(musicaDeFondo)) sonido.detener(musicaDeFondo)
     reiniciar = true
   }
 }

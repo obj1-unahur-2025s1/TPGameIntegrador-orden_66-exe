@@ -7,7 +7,8 @@ object paleta {
 object tuNivel {
   method position() = game.at(3, 13)
   
-  method text() = "Nivel: " + interfaz.nivel()
+  //cambiar a imagen
+  method text() = "Secuencia: " + interfaz.nivel()
   
   method textColor() = paleta.amarillo()
 }

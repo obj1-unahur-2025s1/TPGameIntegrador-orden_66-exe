@@ -26,13 +26,14 @@ object interfaz {
   }
   
   method addSecuenciaJugador(unColor) {
-    const inputSound = new InputSound()
-    sonido.ejecutar(inputSound)
     if (wollokDice.flechas()) {
+      const inputSound = new InputSound()
       self.removeImages([tuTurno])
       self.agregarColorYMostrar(unColor)
+      sonido.ejecutar(inputSound)
       
       if (self.esJugadaPerdedora()) {
+        if (sonido.enEjecucion(inputSound)) sonido.detener(inputSound)
         self.perder()
       } else {
         if (self.ultimaJugada()) {
@@ -62,6 +63,7 @@ object interfaz {
   
   method reiniciar() {
     if (wollokDice.reiniciar()) {
+      //sonido.ejecutar(wollokDice.musicaMenu)
       nivel = 1
       secuencias.clear()
       sucuenciasJugador.clear()
