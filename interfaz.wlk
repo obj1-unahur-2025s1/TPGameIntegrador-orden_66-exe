@@ -4,6 +4,8 @@ import colores.*
 import wollokDice.*
 import imagenes.*
 import sonidos.*
+import Puntuacion.*
+
 
 object interfaz {
   var nivel = 1
@@ -31,7 +33,7 @@ object interfaz {
       self.removeImages([tuTurno])
       self.agregarColorYMostrar(unColor)
       sonido.ejecutar(inputSound)
-      
+      puntos.sumarPuntaje(1)
       if (self.esJugadaPerdedora()) {
         if (sonido.enEjecucion(inputSound)) sonido.detener(inputSound)
         self.perder()
@@ -56,6 +58,7 @@ object interfaz {
   method perder() {
     wollokDice.ocultarFlechas()
     game.addVisual(perdiste)
+    // agrego 
     wollokDice.perdio()
   }
   
@@ -67,7 +70,9 @@ object interfaz {
       nivel = 1
       secuencias.clear()
       sucuenciasJugador.clear()
+      puntos.resetearPuntuacion()
       self.removeImages([perdiste, sinColores, tuTurno])
+      puntos.removeVisual()
       game.addVisual(fondoInicio)
       wollokDice.cambiarEnJuego()
     }

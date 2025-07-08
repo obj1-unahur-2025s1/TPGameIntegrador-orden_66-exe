@@ -4,6 +4,7 @@ import colores.*
 import imagenes.*
 import textos.*
 import sonidos.*
+import Puntuacion.*
 
 object wollokDice {
   var enJuego = false
@@ -52,13 +53,14 @@ object wollokDice {
     if (!enJuego) {
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
       game.addVisual(sinColores)
+//
+      puntos.addVisual()
+      puntos.ubicar()
       if (sonido.enEjecucion(musicaMenu)) sonido.detener(musicaMenu)
       sonido.ejecutar(musicaDeFondo)
       enJuego = true
       reiniciar = false
       flechasActivas = false
-      
-      if (!game.hasVisual(tuNivel)) game.addVisual(tuNivel)
       self.mostrarSecuencia()
     }
   }
