@@ -14,6 +14,10 @@ const perdiste = new Imagen(imagen = "pantallaPerdiste.jpg")
 
 const intrucciones = new Imagen(imagen = "instrucciones.jpg")
 
+const highScoreImage = new Imagen(imagen = "highScore.jpg")
+
+const highScoreLista = new Imagen(imagen = "highScores.jpg")
+
 const seleccionDificultad = new Imagen(imagen = "seleccionNivel.jpg")
 
 class Texto inherits Imagen {

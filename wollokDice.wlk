@@ -2,7 +2,6 @@ import wollok.game.*
 import interfaz.*
 import colores.*
 import imagenes.*
-import textos.*
 import sonidos.*
 import Puntuacion.*
 
@@ -49,19 +48,24 @@ object wollokDice {
     keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
     keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(verde) })
     keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
+    
+    keyboard.h().onPressDo({ interfaz.mostrarHighScore() })
   }
-
+  
   method seleccionarDificultad() {
-    if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
-    game.addVisual(seleccionDificultad)
+    if (!enJuego) {
+      if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
+      game.addVisual(seleccionDificultad)
+    }
   }
   
   method iniciarGame(unaDificultad) {
-    interfaz.setDificultad(unaDificultad)
     if (!enJuego) {
-      if (game.hasVisual(seleccionDificultad)) game.removeVisual(seleccionDificultad)
+      interfaz.setDificultad(unaDificultad)
+      if (game.hasVisual(seleccionDificultad)) game.removeVisual(
+          seleccionDificultad
+        )
       game.addVisual(sinColores)
-      //
       puntos.addVisual()
       puntos.ubicar()
       if (sonido.enEjecucion(musicaMenu)) sonido.detener(musicaMenu)
