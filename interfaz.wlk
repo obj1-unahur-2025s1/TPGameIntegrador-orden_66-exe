@@ -9,6 +9,7 @@ import Puntuacion.*
 
 object interfaz {
   var nivel = 1
+  var dificultad = "facil"
   const opciones = [rojo, azul, verde, amarillo]
   const property secuencias = []
   const sucuenciasJugador = []
@@ -16,11 +17,30 @@ object interfaz {
   method nivel() = nivel
   
   method opciones() = opciones
+
+  method setDificultad(unaDificultad) {
+  dificultad = unaDificultad
+}
+
+method prepararNivelInicial() {
+  if (dificultad == "dificil") {
+    nivel = 4
+  } else {
+    nivel = 1
+  }
+  secuencias.clear()
+  sucuenciasJugador.clear()   
+}
+
+
   
   method secuenciaArealizar() {
-    if (secuencias.size() < nivel) secuencias.add(opciones.randomized().first())
-    return secuencias
+  if (secuencias.size() < nivel) {
+    secuencias.add(opciones.randomized().first())
+    return self.secuenciaArealizar()  
   }
+  return secuencias
+}
   
   method subirDeNivel() {
     nivel += 1

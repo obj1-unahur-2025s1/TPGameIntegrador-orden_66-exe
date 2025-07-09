@@ -37,6 +37,8 @@ object wollokDice {
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.iniciarGame() })
+    keyboard.f().onPressDo({interfaz.setDificultad("facil")})
+    keyboard.d().onPressDo({interfaz.setDificultad("dificil")})
     keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
@@ -61,6 +63,7 @@ object wollokDice {
       enJuego = true
       reiniciar = false
       flechasActivas = false
+      interfaz.prepararNivelInicial()
       self.mostrarSecuencia()
     }
   }
