@@ -6,7 +6,6 @@ import imagenes.*
 import sonidos.*
 import Puntuacion.*
 
-
 object interfaz {
   var nivel = 1
   var dificultad = "facil"
@@ -17,30 +16,28 @@ object interfaz {
   method nivel() = nivel
   
   method opciones() = opciones
-
+  
   method setDificultad(unaDificultad) {
-  dificultad = unaDificultad
-}
-
-method prepararNivelInicial() {
-  if (dificultad == "dificil") {
-    nivel = 4
-  } else {
-    nivel = 1
+    dificultad = unaDificultad
   }
-  secuencias.clear()
-  sucuenciasJugador.clear()   
-}
-
-
+  
+  method prepararNivelInicial() {
+    if (dificultad == "dificil") {
+      nivel = 4
+    } else {
+      nivel = 1
+    }
+    secuencias.clear()
+    sucuenciasJugador.clear()
+  }
   
   method secuenciaArealizar() {
-  if (secuencias.size() < nivel) {
-    secuencias.add(opciones.randomized().first())
-    return self.secuenciaArealizar()  
+    if (secuencias.size() < nivel) {
+      secuencias.add(opciones.randomized().first())
+      return self.secuenciaArealizar()
+    }
+    return secuencias
   }
-  return secuencias
-}
   
   method subirDeNivel() {
     nivel += 1

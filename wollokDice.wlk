@@ -37,8 +37,8 @@ object wollokDice {
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.iniciarGame() })
-    keyboard.f().onPressDo({interfaz.setDificultad("facil")})
-    keyboard.d().onPressDo({interfaz.setDificultad("dificil")})
+    keyboard.f().onPressDo({ interfaz.setDificultad("facil") })
+    keyboard.d().onPressDo({ interfaz.setDificultad("dificil") })
     keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
@@ -55,7 +55,7 @@ object wollokDice {
     if (!enJuego) {
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
       game.addVisual(sinColores)
-//
+      //
       puntos.addVisual()
       puntos.ubicar()
       if (sonido.enEjecucion(musicaMenu)) sonido.detener(musicaMenu)
@@ -83,6 +83,8 @@ object wollokDice {
     
     listadoDeColores.forEach(
       { color =>
+        //CUANDO REPITE COLOR PARA Q SE VEA
+        game.schedule(time - 500, { sinColores.mostraryOcultar() })
         game.schedule(time, { color.mostraryOcultar() })
         time += 1000
       }
