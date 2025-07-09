@@ -14,6 +14,8 @@ const perdiste = new Imagen(imagen = "pantallaPerdiste.jpg")
 
 const intrucciones = new Imagen(imagen = "instrucciones.jpg")
 
+const seleccionDificultad = new Imagen(imagen = "seleccionNivel.jpg")
+
 class Texto inherits Imagen {
   override method position() = game.at(15, 13)
 }

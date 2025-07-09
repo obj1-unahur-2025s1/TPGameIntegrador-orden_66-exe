@@ -36,9 +36,9 @@ object wollokDice {
   }
   
   method initTeclado() {
-    keyboard.enter().onPressDo({ self.iniciarGame() })
-    keyboard.num1().onPressDo({ interfaz.setDificultad("facil") })
-    keyboard.num2().onPressDo({ interfaz.setDificultad("dificil") })
+    keyboard.enter().onPressDo({ self.seleccionarDificultad() })
+    keyboard.num1().onPressDo({ self.iniciarGame("facil") })
+    keyboard.num2().onPressDo({ self.iniciarGame("dificil") })
     keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
@@ -50,10 +50,16 @@ object wollokDice {
     keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(verde) })
     keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
   }
+
+  method seleccionarDificultad() {
+    if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
+    game.addVisual(seleccionDificultad)
+  }
   
-  method iniciarGame() {
+  method iniciarGame(unaDificultad) {
+    interfaz.setDificultad(unaDificultad)
     if (!enJuego) {
-      if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
+      if (game.hasVisual(seleccionDificultad)) game.removeVisual(seleccionDificultad)
       game.addVisual(sinColores)
       //
       puntos.addVisual()
