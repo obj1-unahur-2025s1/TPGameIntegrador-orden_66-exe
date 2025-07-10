@@ -131,6 +131,7 @@ object wollokDice {
   
   method perdio() {
     if (sonido.enEjecucion(musicaDeFondo)) sonido.detener(musicaDeFondo)
+    if (!sonido.enEjecucion(musicaMenu)) sonido.ejecutar(musicaMenu)
     reiniciar = true
   }
 }

@@ -228,6 +228,7 @@ object interfaz {
       }
       
       self.reiniciar()
+      self.mostrarHighScore()
     }
   }
   
