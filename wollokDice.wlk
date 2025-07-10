@@ -9,6 +9,7 @@ object wollokDice {
   var enJuego = false
   var flechasActivas = false
   var reiniciar = false
+  var startGame = false
   const musicaDeFondo = new GameMusic()
   const musicaMenu = new MenuMusic()
   
@@ -20,6 +21,10 @@ object wollokDice {
   
   method cambiarEnJuego() {
     enJuego = not enJuego
+  }
+  
+  method startGame(value) {
+    startGame = value
   }
   
   method iniciar() {
@@ -36,6 +41,7 @@ object wollokDice {
   
   method initTeclado() {
     keyboard.enter().onPressDo({ self.seleccionarDificultad() })
+    
     keyboard.num1().onPressDo({ self.iniciarGame("facil") })
     keyboard.num2().onPressDo({ self.iniciarGame("dificil") })
     
@@ -43,7 +49,7 @@ object wollokDice {
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
     keyboard.h().onPressDo({ interfaz.mostrarHighScore() })
-    keyboard.p().onPressDo({ game.stop() }) //NO SE USA
+    keyboard.p().onPressDo({ game.stop() })
     
     keyboard.w().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
     keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
@@ -60,6 +66,7 @@ object wollokDice {
   
   method seleccionarDificultad() {
     if (!enJuego) {
+      startGame = true
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
       if (not game.hasVisual(seleccionDificultad)) game.addVisual(
           seleccionDificultad
@@ -68,7 +75,7 @@ object wollokDice {
   }
   
   method iniciarGame(unaDificultad) {
-    if (!enJuego) {
+    if ((!enJuego) && startGame) {
       interfaz.setDificultad(unaDificultad)
       if (game.hasVisual(seleccionDificultad)) game.removeVisual(
           seleccionDificultad
@@ -101,7 +108,6 @@ object wollokDice {
     
     listadoDeColores.forEach(
       { color =>
-        //CUANDO REPITE COLOR PARA Q SE VEA
         game.schedule(time - 500, { sinColores.mostraryOcultar() })
         game.schedule(time, { color.mostraryOcultar() })
         time += 1000

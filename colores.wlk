@@ -1,4 +1,4 @@
-import imagenes.Imagen
+import imagenes.*
 
 class Colores inherits Imagen {
   method mostraryOcultar() {

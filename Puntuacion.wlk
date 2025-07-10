@@ -68,7 +68,9 @@ class Puntaje {
   
   method n4() = score.get(3)
   
-  method total() = score.sum({ n => n.numero() })
+  method total() = (((score.get(0).numero() * 1000) + (score.get(
+    1
+  ).numero() * 100)) + (score.get(2).numero() * 10)) + score.get(3).numero()
 }
 
 object puntos {

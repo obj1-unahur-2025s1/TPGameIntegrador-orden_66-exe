@@ -210,6 +210,8 @@ object interfaz {
       ingresarNombre = false
       game.removeVisual(space)
       game.removeTickEvent("cursor")
+      cursor = 1
+      objCursor.reubicar(pl1, 4.5)
       objCursor.ocultar()
       
       puntuacion.n1().cambiarNumero(puntos.puntuacion().get(3).numero())
@@ -255,6 +257,7 @@ object interfaz {
   
   method mostrarInstruciones() {
     if (!wollokDice.enJuego()) {
+      wollokDice.startGame(false)
       game.removeVisual(fondoInicio)
       game.addVisual(intrucciones)
     }
@@ -269,6 +272,7 @@ object interfaz {
   }
   
   method mostrarHighScore() {
+    wollokDice.startGame(false)
     if ((!wollokDice.enJuego()) || wollokDice.reiniciar()) {
       game.removeVisual(highScoreImage)
       game.removeVisual(fondoBase)
