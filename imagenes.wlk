@@ -6,7 +6,7 @@ class Imagen {
   method position() = game.at(0, 0)
 }
 
-const fondoInicio = new Imagen(imagen = "pantallaInicio.jpeg")
+const fondoInicio = new Imagen(imagen = "inicioConHighScore.png")
 
 const fondoBase = new Imagen(imagen = "fondoBase.jpg")
 
@@ -25,3 +25,15 @@ class Texto inherits Imagen {
 }
 
 const tuTurno = new Texto(imagen = "turno.jpg")
+
+class SinHighScore inherits Imagen {
+  override method position() = game.at(4, 8)
+}
+
+const sinHighScore = new SinHighScore(imagen = "sinHighScore.png")
+
+class VolverIm inherits Imagen {
+  override method position() = game.at(6, 1)
+}
+
+const volver = new VolverIm(imagen = "volverB.png")

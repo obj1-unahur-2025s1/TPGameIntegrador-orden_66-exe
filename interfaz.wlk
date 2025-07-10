@@ -72,9 +72,10 @@ object interfaz {
     wollokDice.ocultarFlechas()
     if (self.esHighScore()) self.mostrarPantallaHightScore()
     else self.mostrarPantallaPerdio()
+    wollokDice.perdio()
   }
   
-  method esHighScore() = puntuaciones.isEmpty() || self.esMayorPuntuacion()
+  method esHighScore() = (puntuaciones.size() < 4) || self.esMayorPuntuacion()
   
   method esMayorPuntuacion() = puntuaciones.any(
     { p => p.total() < puntos.valor() }
@@ -82,7 +83,6 @@ object interfaz {
   
   method mostrarPantallaPerdio() {
     game.addVisual(perdiste)
-    wollokDice.perdio()
   }
   
   method mostrarPantallaHightScore() {
@@ -124,7 +124,6 @@ object interfaz {
   
   method reiniciar() {
     if (wollokDice.reiniciar()) {
-      //sonido.ejecutar(wollokDice.musicaMenu)
       nivel = 1
       secuencias.clear()
       sucuenciasJugador.clear()
@@ -154,49 +153,59 @@ object interfaz {
   
   method mostrarMenu() {
     if (!wollokDice.enJuego()) {
-      game.removeVisual(intrucciones)
+      if (game.hasVisual(intrucciones)) game.removeVisual(intrucciones)
+      self.ocultarTodoHighScore()
       game.addVisual(fondoInicio)
     }
   }
   
   method mostrarHighScore() {
-    game.removeVisual(highScoreImage)
-    game.removeVisual(fondoBase)
-    if (!game.hasVisual(highScoreLista)) game.addVisual(highScoreLista)
-    
-    var posicionY = 13
-    puntuaciones.forEach(
-      { p =>
-        var posicionInicialX = 6
-        p.nombre().forEach(
-          { l =>
-            l.reubicar(posicionInicialX, posicionY)
-            game.addVisual(l)
-            posicionInicialX += 1
+    if ((!wollokDice.enJuego()) || wollokDice.reiniciar()) {
+      game.removeVisual(highScoreImage)
+      game.removeVisual(fondoBase)
+      if (!game.hasVisual(highScoreLista)) game.addVisual(highScoreLista)
+      if (puntuaciones.size() == 0) {
+        game.addVisual(sinHighScore)
+      } else {
+        var posicionY = 13
+        puntuaciones.forEach(
+          { p =>
+            var posicionInicialX = 6
+            p.nombre().forEach(
+              { l =>
+                l.reubicar(posicionInicialX, posicionY)
+                game.addVisual(l)
+                posicionInicialX += 1
+              }
+            )
+            
+            var posicionNumeroX = 12
+            p.score().forEach(
+              { n =>
+                n.reubicar(posicionNumeroX, posicionY)
+                posicionNumeroX += 1
+                return game.addVisual(n)
+              }
+            )
+            posicionY -= 3
           }
         )
-        
-        var posicionNumeroX = 12
-        p.score().forEach(
-          { n =>
-            n.reubicar(posicionNumeroX, posicionY)
-            posicionNumeroX += 1
-            return game.addVisual(n)
-          }
-        )
-        
-        posicionY -= 3
       }
-    )
+    }
+    if (!wollokDice.enJuego()) game.addVisual(volver)
   }
   
   method ocultarTodoHighScore() {
+    if (game.hasVisual(volver)) game.removeVisual(volver)
+    if (game.hasVisual(sinHighScore)) game.removeVisual(sinHighScore)
     puntuaciones.forEach(
       { p =>
-        p.nombre().forEach({ l => game.removeVisual(l) })
-        return p.score().forEach({ n => game.removeVisual(n) })
+        p.nombre().forEach({ l => if (game.hasVisual(l)) game.removeVisual(l) })
+        return p.score().forEach(
+          { n => if (game.hasVisual(n)) game.removeVisual(n) }
+        )
       }
     )
-    game.removeVisual(highScoreLista)
+    if (game.hasVisual(highScoreLista)) game.removeVisual(highScoreLista)
   }
 }

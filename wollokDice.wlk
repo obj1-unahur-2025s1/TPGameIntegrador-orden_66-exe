@@ -38,18 +38,17 @@ object wollokDice {
     keyboard.enter().onPressDo({ self.seleccionarDificultad() })
     keyboard.num1().onPressDo({ self.iniciarGame("facil") })
     keyboard.num2().onPressDo({ self.iniciarGame("dificil") })
+    
     keyboard.r().onPressDo({ interfaz.reiniciar() })
     keyboard.i().onPressDo({ interfaz.mostrarInstruciones() })
     keyboard.b().onPressDo({ interfaz.mostrarMenu() })
-    
+    keyboard.h().onPressDo({ interfaz.mostrarHighScore() })
     keyboard.p().onPressDo({ game.stop() }) //NO SE USA
     
     keyboard.w().onPressDo({ interfaz.addSecuenciaJugador(rojo) })
     keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
     keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(verde) })
     keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
-    
-    keyboard.h().onPressDo({ interfaz.mostrarHighScore() })
   }
   
   method seleccionarDificultad() {
