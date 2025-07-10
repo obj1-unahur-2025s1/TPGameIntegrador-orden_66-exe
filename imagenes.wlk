@@ -1,9 +1,12 @@
+import interfaz.*
+
 class Imagen {
+  var property position = game.at(0, 0)
   const imagen
   
   method image() = imagen
   
-  method position() = game.at(0, 0)
+  method position() = position
 }
 
 const fondoInicio = new Imagen(imagen = "inicioConHighScore.png")
@@ -20,20 +23,42 @@ const highScoreLista = new Imagen(imagen = "highScores.jpg")
 
 const seleccionDificultad = new Imagen(imagen = "seleccionNivel.jpg")
 
-class Texto inherits Imagen {
-  override method position() = game.at(15, 13)
+const tuTurno = new Imagen(imagen = "turno.jpg", position = game.at(15, 13))
+
+const sinHighScore = new Imagen(
+  imagen = "sinHighScore.png",
+  position = game.at(4, 8)
+)
+
+const volver = new Imagen(imagen = "volverB.png", position = game.at(6, 1))
+
+const volverR = new Imagen(
+  imagen = "rParaReiniciar.png",
+  position = game.at(7, 1)
+)
+
+const space = new Imagen(imagen = "space_.jpeg", position = game.at(4, 0))
+
+class Cursor inherits Imagen {
+  method mostraryOcultar() {
+    if (not game.hasVisual(self)) game.addVisual(self)
+    game.schedule(500, { self.ocultar() })
+  }
+  
+  method ocultar() {
+    if (game.hasVisual(self)) game.removeVisual(self)
+  }
+  
+  method titilar() {
+    game.onTick(1000, "cursor", { self.mostraryOcultar() })
+  }
+  
+  method reubicar(posX, posY) {
+    position = game.at(posX, posY)
+  }
 }
 
-const tuTurno = new Texto(imagen = "turno.jpg")
-
-class SinHighScore inherits Imagen {
-  override method position() = game.at(4, 8)
-}
-
-const sinHighScore = new SinHighScore(imagen = "sinHighScore.png")
-
-class VolverIm inherits Imagen {
-  override method position() = game.at(6, 1)
-}
-
-const volver = new VolverIm(imagen = "volverB.png")
+const objCursor = new Cursor(
+  imagen = "cursor.png",
+  position = game.at(interfaz.pl1(), 4.5)
+)

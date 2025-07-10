@@ -12,6 +12,12 @@ object interfaz {
   const property secuencias = []
   const sucuenciasJugador = []
   const puntuaciones = [] //lista de puntaje
+  var ingresarNombre = false
+  var cursor = 1
+  var property puntuacion = new Puntaje()
+  const property pl1 = 8
+  const property pl2 = 10
+  const property pl3 = 12
   
   method nivel() = nivel
   
@@ -50,7 +56,7 @@ object interfaz {
         if (sonido.enEjecucion(inputSound)) sonido.detener(inputSound)
         self.perder()
       } else {
-        puntos.sumarPuntaje(1)
+        puntos.sumarPuntaje(self.puntajeASumar())
         if (self.ultimaJugada()) {
           self.subirDeNivel()
           game.schedule(500, { wollokDice.continuarGame() })
@@ -58,6 +64,8 @@ object interfaz {
       }
     }
   }
+  
+  method puntajeASumar() = if (dificultad == "dificil") 1 else 2
   
   method agregarColorYMostrar(unColor) {
     unColor.mostraryOcultar()
@@ -75,7 +83,7 @@ object interfaz {
     wollokDice.perdio()
   }
   
-  method esHighScore() = (puntuaciones.size() < 4) || self.esMayorPuntuacion()
+  method esHighScore() = (puntos.valor() > 0) && ((puntuaciones.size() < 4) || self.esMayorPuntuacion())
   
   method esMayorPuntuacion() = puntuaciones.any(
     { p => p.total() < puntos.valor() }
@@ -86,38 +94,139 @@ object interfaz {
   }
   
   method mostrarPantallaHightScore() {
+    ingresarNombre = true
     game.addVisual(highScoreImage)
-    const puntuacion = new Puntaje()
-    
-    if (puntuaciones.size() == 0) {
-      puntuacion.agregarUnaLetra(new Letra(letra = "c2"))
-      puntuacion.agregarUnaLetra(new Letra(letra = "a2"))
-      puntuacion.agregarUnaLetra(new Letra(letra = "r2"))
-    } else {
-      if (puntuaciones.size() == 1) {
-        puntuacion.agregarUnaLetra(new Letra(letra = "r2"))
-        puntuacion.agregarUnaLetra(new Letra(letra = "a2"))
-        puntuacion.agregarUnaLetra(new Letra(letra = "f2"))
+    puntuacion = new Puntaje()
+    game.addVisual(puntuacion.l1())
+    game.addVisual(puntuacion.l2())
+    game.addVisual(puntuacion.l3())
+    objCursor.titilar()
+    game.addVisual(space)
+  }
+  
+  method cambiarUnaLetra(operacion) {
+    if (ingresarNombre) {
+      if (operacion == "restar") {
+        if (cursor == 1) {
+          var nuevaLetra = puntuacion.l1().valor() - 1
+          if (nuevaLetra < 0) {
+            nuevaLetra = 25
+          }
+          
+          puntuacion.l1().cambiarLetra(nuevaLetra)
+        }
+        
+        if (cursor == 2) {
+          var nuevaLetra = puntuacion.l2().valor() - 1
+          if (nuevaLetra < 0) {
+            nuevaLetra = 25
+          }
+          
+          puntuacion.l2().cambiarLetra(nuevaLetra)
+        }
+        
+        if (cursor == 3) {
+          var nuevaLetra = puntuacion.l3().valor() - 1
+          if (nuevaLetra < 0) {
+            nuevaLetra = 25
+          }
+          
+          puntuacion.l3().cambiarLetra(nuevaLetra)
+        }
       } else {
-        puntuacion.agregarUnaLetra(new Letra(letra = "c2"))
-        puntuacion.agregarUnaLetra(new Letra(letra = "e2"))
-        puntuacion.agregarUnaLetra(new Letra(letra = "l2"))
+        if (cursor == 1) {
+          var nuevaLetra = puntuacion.l1().valor() + 1
+          if (nuevaLetra > 25) {
+            nuevaLetra = 1
+          }
+          
+          puntuacion.l1().cambiarLetra(nuevaLetra)
+        }
+        
+        if (cursor == 2) {
+          var nuevaLetra = puntuacion.l2().valor() + 1
+          if (nuevaLetra > 25) {
+            nuevaLetra = 1
+          }
+          
+          puntuacion.l2().cambiarLetra(nuevaLetra)
+        }
+        
+        if (cursor == 3) {
+          var nuevaLetra = puntuacion.l3().valor() + 1
+          if (nuevaLetra > 25) {
+            nuevaLetra = 1
+          }
+          
+          puntuacion.l3().cambiarLetra(nuevaLetra)
+        }
       }
     }
-    
-    puntuacion.agregarUnPunto(
-      new Numero(numero = puntos.puntuacion().get(1).numero())
-    )
-    puntuacion.agregarUnPunto(
-      new Numero(numero = puntos.puntuacion().get(0).numero())
-    )
-    
-    puntuaciones.add(puntuacion)
-    puntuaciones.sortBy({ p, p1 => p.total() > p1.total() })
-    const puntuacionesValidas = puntuaciones.take(3)
-    puntuaciones.clear()
-    puntuaciones.addAll(puntuacionesValidas)
-    wollokDice.perdio()
+  }
+  
+  method cambiarCursor(operacion) {
+    if (ingresarNombre) {
+      game.removeTickEvent("cursor")
+      objCursor.ocultar()
+      
+      if (operacion == "izq") {
+        if (cursor == 1) {
+          cursor = 3
+          objCursor.reubicar(pl3, 4.5)
+          objCursor.titilar()
+        } else {
+          if (cursor == 2) {
+            cursor = 1
+            objCursor.reubicar(pl1, 4.5)
+            objCursor.titilar()
+          } else {
+            cursor = 2
+            objCursor.reubicar(pl2, 4.5)
+            objCursor.titilar()
+          }
+        }
+      } else {
+        if (cursor == 1) {
+          cursor = 2
+          objCursor.reubicar(pl2, 4.5)
+          objCursor.titilar()
+        } else {
+          if (cursor == 2) {
+            cursor = 3
+            objCursor.reubicar(pl3, 4.5)
+            objCursor.titilar()
+          } else {
+            cursor = 1
+            objCursor.reubicar(pl1, 4.5)
+            objCursor.titilar()
+          }
+        }
+      }
+    }
+  }
+  
+  method despuesDelNombre() {
+    if (ingresarNombre) {
+      ingresarNombre = false
+      game.removeVisual(space)
+      game.removeTickEvent("cursor")
+      objCursor.ocultar()
+      
+      puntuacion.n1().cambiarNumero(puntos.puntuacion().get(3).numero())
+      puntuacion.n2().cambiarNumero(puntos.puntuacion().get(2).numero())
+      puntuacion.n3().cambiarNumero(puntos.puntuacion().get(1).numero())
+      puntuacion.n4().cambiarNumero(puntos.puntuacion().get(0).numero())
+      
+      puntuaciones.add(puntuacion)
+      puntuaciones.sortBy({ p, p1 => p.total() > p1.total() })
+      if (puntuaciones.size() > 3) {
+        const puntuacionesValidas = puntuaciones.take(3)
+        puntuaciones.clear()
+        puntuaciones.addAll(puntuacionesValidas)
+      }
+      
+      self.reiniciar()
+    }
   }
   
   method ultimaJugada() = sucuenciasJugador.size() == secuencias.size()
@@ -155,7 +264,7 @@ object interfaz {
     if (!wollokDice.enJuego()) {
       if (game.hasVisual(intrucciones)) game.removeVisual(intrucciones)
       self.ocultarTodoHighScore()
-      game.addVisual(fondoInicio)
+      if (!game.hasVisual(fondoInicio)) game.addVisual(fondoInicio)
     }
   }
   
@@ -165,7 +274,7 @@ object interfaz {
       game.removeVisual(fondoBase)
       if (!game.hasVisual(highScoreLista)) game.addVisual(highScoreLista)
       if (puntuaciones.size() == 0) {
-        game.addVisual(sinHighScore)
+        if (not game.hasVisual(sinHighScore)) game.addVisual(sinHighScore)
       } else {
         var posicionY = 13
         puntuaciones.forEach(
@@ -179,7 +288,7 @@ object interfaz {
               }
             )
             
-            var posicionNumeroX = 12
+            var posicionNumeroX = 10
             p.score().forEach(
               { n =>
                 n.reubicar(posicionNumeroX, posicionY)
@@ -193,9 +302,11 @@ object interfaz {
       }
     }
     if (!wollokDice.enJuego()) game.addVisual(volver)
+    else game.addVisual(volverR)
   }
   
   method ocultarTodoHighScore() {
+    if (game.hasVisual(volverR)) game.removeVisual(volverR)
     if (game.hasVisual(volver)) game.removeVisual(volver)
     if (game.hasVisual(sinHighScore)) game.removeVisual(sinHighScore)
     puntuaciones.forEach(

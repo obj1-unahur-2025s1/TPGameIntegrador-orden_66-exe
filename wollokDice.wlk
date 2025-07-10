@@ -49,12 +49,21 @@ object wollokDice {
     keyboard.s().onPressDo({ interfaz.addSecuenciaJugador(azul) })
     keyboard.d().onPressDo({ interfaz.addSecuenciaJugador(verde) })
     keyboard.a().onPressDo({ interfaz.addSecuenciaJugador(amarillo) })
+    
+    keyboard.up().onPressDo({ interfaz.cambiarUnaLetra("restar") })
+    keyboard.down().onPressDo({ interfaz.cambiarUnaLetra("sumar") })
+    keyboard.left().onPressDo({ interfaz.cambiarCursor("izq") })
+    keyboard.right().onPressDo({ interfaz.cambiarCursor("der") })
+    
+    keyboard.space().onPressDo({ interfaz.despuesDelNombre() })
   }
   
   method seleccionarDificultad() {
     if (!enJuego) {
       if (game.hasVisual(fondoInicio)) game.removeVisual(fondoInicio)
-      game.addVisual(seleccionDificultad)
+      if (not game.hasVisual(seleccionDificultad)) game.addVisual(
+          seleccionDificultad
+        )
     }
   }
   
