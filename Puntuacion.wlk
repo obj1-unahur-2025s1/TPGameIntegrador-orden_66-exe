@@ -19,58 +19,97 @@ class Numero {
 
 class Letra {
   var property position = game.at(0, 0)
-  var numero = 0
+  const letraMax = 25
+  const letraMin = 0
+  var letraActual = letraMin
   
-  method image() = ("letra_" + numero) + ".png"
+  method image() = ("letra_" + letraActual) + ".png"
   
-  method valor() = numero
+  method valor() = letraActual
   
   method reubicar(posX, posY) {
     position = game.at(posX, posY)
   }
   
   method cambiarLetra(unaLetra) {
-    numero = unaLetra
+    letraActual = unaLetra
   }
+  
+  method aumentarLetra() {
+    const letraAux = letraActual + 1
+    letraActual = if (letraAux.between(letraMin, letraMax)) letraAux
+                  else self.restablecer(letraAux)
+  }
+  
+  method disminuirLetra() {
+    const letraAux = letraActual - 1
+    letraActual = if (letraAux.between(letraMin, letraMax)) letraAux
+                  else self.restablecer(letraAux)
+  }
+  
+  method restablecer(unaLetra) = if (unaLetra < letraMin) letraMax else letraMin
 }
 
 class Puntaje {
   const score = [new Numero(), new Numero(), new Numero(), new Numero()]
   const nombre = [
-    new Letra(numero = 0, position = game.at(interfaz.pl1(), 5)),
-    new Letra(numero = 0, position = game.at(interfaz.pl2(), 5)),
-    new Letra(numero = 0, position = game.at(interfaz.pl3(), 5))
+    new Letra(
+      letraActual = 0,
+      position = game.at(interfaz.ubicacionLetras().get(0), 5)
+    ),
+    new Letra(
+      letraActual = 0,
+      position = game.at(interfaz.ubicacionLetras().get(1), 5)
+    ),
+    new Letra(
+      letraActual = 0,
+      position = game.at(interfaz.ubicacionLetras().get(2), 5)
+    )
   ]
-  
-  method agregarUnaLetra(unaLetra) {
-    nombre.add(unaLetra)
-  }
-  
-  method agregarUnPunto(unPunto) {
-    score.add(unPunto)
-  }
   
   method nombre() = nombre
   
   method score() = score
   
-  method l1() = nombre.get(0)
+  method getLetra(index) = nombre.get(index)
   
-  method l2() = nombre.get(1)
-  
-  method l3() = nombre.get(2)
-  
-  method n1() = score.get(0)
-  
-  method n2() = score.get(1)
-  
-  method n3() = score.get(2)
-  
-  method n4() = score.get(3)
+  method getPunto(index) = score.get(index)
   
   method total() = (((score.get(0).numero() * 1000) + (score.get(
     1
   ).numero() * 100)) + (score.get(2).numero() * 10)) + score.get(3).numero()
+  
+  method escribirNombre(posicionY) {
+    var posicionInicialX = 6
+    nombre.forEach(
+      { l =>
+        l.reubicar(posicionInicialX, posicionY)
+        game.addVisual(l)
+        posicionInicialX += 1
+      }
+    )
+  }
+  
+  method escribirPuntos(posicionNumeroX, posicionY) {
+    var posicionNumeroXAux = posicionNumeroX
+    score.forEach(
+      { n =>
+        n.reubicar(posicionNumeroXAux, posicionY)
+        game.addVisual(n)
+        posicionNumeroXAux += 1
+      }
+    )
+  }
+  
+  method escribirHighScore(posicionY) {
+    self.escribirNombre(posicionY)
+    self.escribirPuntos(10, posicionY)
+  }
+  
+  method removerHighScore() {
+    nombre.forEach({ l => if (game.hasVisual(l)) game.removeVisual(l) })
+    score.forEach({ n => if (game.hasVisual(n)) game.removeVisual(n) })
+  }
 }
 
 object puntos {

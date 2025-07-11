@@ -99,14 +99,9 @@ object wollokDice {
   
   method mostrarSecuencia() {
     flechasActivas = false
-    const listadoDeColores = interfaz.secuenciaArealizar()
     var time = 1000
-    if (game.hasVisual(sinColores)) game.schedule(
-        time,
-        { game.removeVisual(sinColores) }
-      )
-    
-    listadoDeColores.forEach(
+    interfaz.removeImages([sinColores])
+    interfaz.secuenciaArealizar().forEach(
       { color =>
         game.schedule(time - 500, { sinColores.mostraryOcultar() })
         game.schedule(time, { color.mostraryOcultar() })
