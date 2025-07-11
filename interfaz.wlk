@@ -11,13 +11,10 @@ object interfaz {
   const opciones = [rojo, azul, verde, amarillo]
   const property secuencias = []
   const sucuenciasJugador = []
-  const puntuaciones = [] //lista de puntaje
+  const puntuaciones = [] //lista de puntajes
   var ingresarNombre = false
-  var cursor = 1
   var property puntuacion = new Puntaje()
-  const property pl1 = 8
-  const property pl2 = 10
-  const property pl3 = 12
+  const property ubicacionLetras = [8, 10, 12]
   
   method nivel() = nivel
   
@@ -52,15 +49,19 @@ object interfaz {
       self.removeImages([tuTurno])
       self.agregarColorYMostrar(unColor)
       sonido.ejecutar(inputSound)
-      if (self.esJugadaPerdedora()) {
-        if (sonido.enEjecucion(inputSound)) sonido.detener(inputSound)
-        self.perder()
-      } else {
-        puntos.sumarPuntaje(self.puntajeASumar())
-        if (self.ultimaJugada()) {
-          self.subirDeNivel()
-          game.schedule(500, { wollokDice.continuarGame() })
-        }
+      self.resolverJugada(inputSound)
+    }
+  }
+  
+  method resolverJugada(inputSound) {
+    if (self.esJugadaPerdedora()) {
+      if (sonido.enEjecucion(inputSound)) sonido.detener(inputSound)
+      self.perder()
+    } else {
+      puntos.sumarPuntaje(self.puntajeASumar())
+      if (self.ultimaJugada()) {
+        self.subirDeNivel()
+        game.schedule(500, { wollokDice.continuarGame() })
       }
     }
   }
@@ -97,70 +98,19 @@ object interfaz {
     ingresarNombre = true
     game.addVisual(highScoreImage)
     puntuacion = new Puntaje()
-    game.addVisual(puntuacion.l1())
-    game.addVisual(puntuacion.l2())
-    game.addVisual(puntuacion.l3())
+    game.addVisual(puntuacion.getLetra(0))
+    game.addVisual(puntuacion.getLetra(1))
+    game.addVisual(puntuacion.getLetra(2))
     objCursor.titilar()
     game.addVisual(space)
   }
   
   method cambiarUnaLetra(operacion) {
     if (ingresarNombre) {
-      if (operacion == "restar") {
-        if (cursor == 1) {
-          var nuevaLetra = puntuacion.l1().valor() - 1
-          if (nuevaLetra < 0) {
-            nuevaLetra = 25
-          }
-          
-          puntuacion.l1().cambiarLetra(nuevaLetra)
-        }
-        
-        if (cursor == 2) {
-          var nuevaLetra = puntuacion.l2().valor() - 1
-          if (nuevaLetra < 0) {
-            nuevaLetra = 25
-          }
-          
-          puntuacion.l2().cambiarLetra(nuevaLetra)
-        }
-        
-        if (cursor == 3) {
-          var nuevaLetra = puntuacion.l3().valor() - 1
-          if (nuevaLetra < 0) {
-            nuevaLetra = 25
-          }
-          
-          puntuacion.l3().cambiarLetra(nuevaLetra)
-        }
-      } else {
-        if (cursor == 1) {
-          var nuevaLetra = puntuacion.l1().valor() + 1
-          if (nuevaLetra > 25) {
-            nuevaLetra = 1
-          }
-          
-          puntuacion.l1().cambiarLetra(nuevaLetra)
-        }
-        
-        if (cursor == 2) {
-          var nuevaLetra = puntuacion.l2().valor() + 1
-          if (nuevaLetra > 25) {
-            nuevaLetra = 1
-          }
-          
-          puntuacion.l2().cambiarLetra(nuevaLetra)
-        }
-        
-        if (cursor == 3) {
-          var nuevaLetra = puntuacion.l3().valor() + 1
-          if (nuevaLetra > 25) {
-            nuevaLetra = 1
-          }
-          
-          puntuacion.l3().cambiarLetra(nuevaLetra)
-        }
-      }
+      if (operacion == "restar") puntuacion.getLetra(
+          objCursor.letraActual()
+        ).disminuirLetra()
+      else puntuacion.getLetra(objCursor.letraActual()).aumentarLetra()
     }
   }
   
@@ -168,39 +118,14 @@ object interfaz {
     if (ingresarNombre) {
       game.removeTickEvent("cursor")
       objCursor.ocultar()
-      
-      if (operacion == "izq") {
-        if (cursor == 1) {
-          cursor = 3
-          objCursor.reubicar(pl3, 4.5)
-          objCursor.titilar()
-        } else {
-          if (cursor == 2) {
-            cursor = 1
-            objCursor.reubicar(pl1, 4.5)
-            objCursor.titilar()
-          } else {
-            cursor = 2
-            objCursor.reubicar(pl2, 4.5)
-            objCursor.titilar()
-          }
-        }
+      if (operacion == "der") {
+        objCursor.aumentarLetra()
+        objCursor.reubicar(ubicacionLetras.get(objCursor.letraActual()), 4.5)
+        objCursor.titilar()
       } else {
-        if (cursor == 1) {
-          cursor = 2
-          objCursor.reubicar(pl2, 4.5)
-          objCursor.titilar()
-        } else {
-          if (cursor == 2) {
-            cursor = 3
-            objCursor.reubicar(pl3, 4.5)
-            objCursor.titilar()
-          } else {
-            cursor = 1
-            objCursor.reubicar(pl1, 4.5)
-            objCursor.titilar()
-          }
-        }
+        objCursor.disminuirLetra()
+        objCursor.reubicar(ubicacionLetras.get(objCursor.letraActual()), 4.5)
+        objCursor.titilar()
       }
     }
   }
@@ -210,25 +135,29 @@ object interfaz {
       ingresarNombre = false
       game.removeVisual(space)
       game.removeTickEvent("cursor")
-      cursor = 1
-      objCursor.reubicar(pl1, 4.5)
+      objCursor.reiniciar()
+      objCursor.reubicar(ubicacionLetras.get(0), 4.5)
       objCursor.ocultar()
       
-      puntuacion.n1().cambiarNumero(puntos.puntuacion().get(3).numero())
-      puntuacion.n2().cambiarNumero(puntos.puntuacion().get(2).numero())
-      puntuacion.n3().cambiarNumero(puntos.puntuacion().get(1).numero())
-      puntuacion.n4().cambiarNumero(puntos.puntuacion().get(0).numero())
-      
-      puntuaciones.add(puntuacion)
-      puntuaciones.sortBy({ p, p1 => p.total() > p1.total() })
-      if (puntuaciones.size() > 3) {
-        const puntuacionesValidas = puntuaciones.take(3)
-        puntuaciones.clear()
-        puntuaciones.addAll(puntuacionesValidas)
-      }
+      self.asignarPuntuacionNueva()
       
       self.reiniciar()
       self.mostrarHighScore()
+    }
+  }
+  
+  method asignarPuntuacionNueva() {
+    puntuacion.getPunto(0).cambiarNumero(puntos.puntuacion().get(3).numero())
+    puntuacion.getPunto(1).cambiarNumero(puntos.puntuacion().get(2).numero())
+    puntuacion.getPunto(2).cambiarNumero(puntos.puntuacion().get(1).numero())
+    puntuacion.getPunto(3).cambiarNumero(puntos.puntuacion().get(0).numero())
+    
+    puntuaciones.add(puntuacion)
+    puntuaciones.sortBy({ p, p1 => p.total() > p1.total() })
+    if (puntuaciones.size() > 3) {
+      const puntuacionesValidas = puntuaciones.take(3)
+      puntuaciones.clear()
+      puntuaciones.addAll(puntuacionesValidas)
     }
   }
   
@@ -281,47 +210,21 @@ object interfaz {
       if (puntuaciones.size() == 0) {
         if (not game.hasVisual(sinHighScore)) game.addVisual(sinHighScore)
       } else {
-        var posicionY = 13
-        puntuaciones.forEach(
-          { p =>
-            var posicionInicialX = 6
-            p.nombre().forEach(
-              { l =>
-                l.reubicar(posicionInicialX, posicionY)
-                game.addVisual(l)
-                posicionInicialX += 1
-              }
-            )
-            
-            var posicionNumeroX = 10
-            p.score().forEach(
-              { n =>
-                n.reubicar(posicionNumeroX, posicionY)
-                posicionNumeroX += 1
-                return game.addVisual(n)
-              }
-            )
-            posicionY -= 3
-          }
-        )
+        self.escribirHighScore()
       }
     }
     if (!wollokDice.enJuego()) game.addVisual(volver)
     else game.addVisual(volverR)
   }
   
+  method escribirHighScore() {
+    var posicionY = 13
+    puntuaciones.forEach({ p =>  p.escribirHighScore(posicionY)posicionY -= 3})
+  }
+  
   method ocultarTodoHighScore() {
-    if (game.hasVisual(volverR)) game.removeVisual(volverR)
-    if (game.hasVisual(volver)) game.removeVisual(volver)
-    if (game.hasVisual(sinHighScore)) game.removeVisual(sinHighScore)
-    puntuaciones.forEach(
-      { p =>
-        p.nombre().forEach({ l => if (game.hasVisual(l)) game.removeVisual(l) })
-        return p.score().forEach(
-          { n => if (game.hasVisual(n)) game.removeVisual(n) }
-        )
-      }
-    )
+    self.removeImages([volverR, volver, sinHighScore])
+    puntuaciones.forEach({ p => p.removerHighScore() })
     if (game.hasVisual(highScoreLista)) game.removeVisual(highScoreLista)
   }
 }
