@@ -13,7 +13,7 @@
 
 ![Imagen de Inicio](./assets/pantallaInicio.jpeg)
 ![Imagen de Intrucciones](./assets/instrucciones.jpg)
-![Imagen de Juego](./assets/base.jpeg)
+![Imagen de Juego](./assets/sinColores.jpg)
 ![Imagen de Juego Rojo](./assets/rojo.jpg)
 ![Imagen de Juego Amarillo](./assets/amarillo.jpg)
 ![Imagen de Juego Verde](./assets/verde.jpg)
