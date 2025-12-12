@@ -14,10 +14,10 @@
 ![Imagen de Inicio](./assets/pantallaInicio.jpeg)
 ![Imagen de Intrucciones](./assets/instrucciones.jpg)
 ![Imagen de Juego](./assets/base.jpeg)
-![Imagen de Juego Rojo](./assets/rojoCompleto.jpeg)
-![Imagen de Juego Amarillo](./assets/amarilloCompleto.jpeg)
-![Imagen de Juego Verde](./assets/verdeCompleto.jpeg)
-![Imagen de Juego Azul](./assets/azulCompleto.jpeg)
+![Imagen de Juego Rojo](./assets/rojo.jpg)
+![Imagen de Juego Amarillo](./assets/amarillo.jpg)
+![Imagen de Juego Verde](./assets/verde.jpg)
+![Imagen de Juego Azul](./assets/azul.jpg)
 
 ## Reglas de Juego / Instrucciones
 
