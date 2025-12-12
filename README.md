@@ -39,7 +39,7 @@ A medida que el jugador avanza, la secuencia se vuelve más larga y difícil.
 ![Imagen de Intrucciones](./assets/instrucciones.jpg)
 ![Imagen de Niveles](./assets/seleccionNivel.jpg)
 ![Imagen de Juego](./assets/juego.png)
-![Imagen de Juego Tu turno ](./assets/juego-tuturno.jpg)
+![Imagen de Juego Tu turno ](./assets/juego-tuturno.png)
 ![Imagen de Juego Perdiste](./assets/juego-perdiste.png)
 ![Imagen de Juego Completar el Puntaje Maximo](./assets/juego-puntuaciones.png)
 ![Imagen de Juego Puntaje Maximo](./assets/juego-puntajeCompleto.png)
