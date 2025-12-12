@@ -39,10 +39,11 @@ A medida que el jugador avanza, la secuencia se vuelve más larga y difícil.
 ![Imagen de Intrucciones](./assets/instrucciones.jpg)
 ![Imagen de Niveles](./assets/seleccionNivel.jpg)
 ![Imagen de Juego](./assets/sinColores.jpg)
-![Imagen de Juego Rojo](./assets/rojo.jpg)
-![Imagen de Juego Amarillo](./assets/amarillo.jpg)
-![Imagen de Juego Verde](./assets/verde.jpg)
-![Imagen de Juego Azul](./assets/azul.jpg)
+![Imagen de Juego](./assets/juego.png)
+![Imagen de Juego Tu turno ](./assets/juego-tuturno.jpg)
+![Imagen de Juego Perdiste](./assets/juego-perdiste.png)
+![Imagen de Juego Completar el Puntaje Maximo](./assets/juego-tupuntuaje.png)
+![Imagen de Juego Puntaje Maximo](./assets/juego-puntajeCompleto.png)
 
 ## Reconocimientos:
 - Queriamos nombrar a nuestro docente a cargo, Hernan Coniglio, por darnos las herramientas y los desafios en este trabajo integrador. Como equipo tuvimos la idea de las puntuaciones maximas pero el nos insistio en que lo intentemos y quedamos muy conformes con lo logrado. 
